@@ -1,11 +1,18 @@
 package org.example.regtree;
 
+import org.example.pointloc.Edge;
+import org.example.pointloc.Graph;
 import org.example.pointloc.Point2DYComparator;
 
 import java.awt.geom.Point2D;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.TreeSet;
+import java.util.stream.Stream;
 
 public class RTree2D {
     private Node root;
@@ -18,6 +25,34 @@ public class RTree2D {
         points.sort(new Point2DXComparator());
         this.points = points;
         this.root = new Node(1, N + 1, points);
+    }
+
+    public static RTree2D readFromFile(String filename) {
+        Stream<String> fileLines;
+        List<String> lines;
+        try {
+            fileLines = Files.lines(Paths.get(filename));
+            lines = fileLines.toList();
+            fileLines.close();
+        } catch (IOException e) {
+            throw new RuntimeException("Literally impossible to get this one, man", e);
+        }
+
+        ArrayList<Point2D.Double> nodes = new ArrayList<>();
+        Scanner lineScanner;
+        double x, y;
+        for (String line : lines) {
+            lineScanner = new Scanner(line);
+            try {
+                x = lineScanner.nextDouble();
+                y = lineScanner.nextDouble();
+            } catch (Exception e) {
+                throw new IllegalArgumentException("File opened has wrong format");
+            }
+            nodes.add(new Point2D.Double(x, y));
+        }
+
+        return new RTree2D(nodes);
     }
 
     public int getN() {
@@ -122,5 +157,9 @@ public class RTree2D {
         queue.add(x);
         nodesPreOrder(x.leftChild, queue);
         nodesPreOrder(x.rightChild, queue);
+    }
+
+    public ArrayList<Point2D.Double> getPoints() {
+        return points;
     }
 }
