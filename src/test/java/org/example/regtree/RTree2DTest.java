@@ -50,4 +50,22 @@ public class RTree2DTest extends TestCase {
         treeOfNode.add(points.getLast());
         assertEquals(treeOfNode.stream().toList(), nodes.getLast().getPointsInInterval().stream().toList());
     }
+
+    public void testRegionSearch() {
+        ArrayList<Point2D.Double> points = new ArrayList<>();
+        points.add(new Point2D.Double(1, 4));
+        points.add(new Point2D.Double(2, 1.5));
+        points.add(new Point2D.Double(2.5, 3));
+        points.add(new Point2D.Double(3.5, 4.5));
+        points.add(new Point2D.Double(5, 2));
+        points.add(new Point2D.Double(5.5, 5.7));
+        points.add(new Point2D.Double(6.5, 0.6));
+        points.add(new Point2D.Double(7, 3.7));
+        points.add(new Point2D.Double(8, 4.7));
+        points.add(new Point2D.Double(9.5, 2.5));
+
+        RTree2D rtree = new RTree2D(points);
+
+        assertEquals(List.of(points.get(1),points.get(4),points.get(2),points.get(7)), rtree.regionSearch(new Interval(1.5,7.5), new Interval(1, 4)));
+    }
 }
