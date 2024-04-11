@@ -1,22 +1,12 @@
 package org.example.regtree;
 
-import java.util.Objects;
-
 public class Interval {
-    private double left;
-    private double right;
+    public double leftInclusive;
+    public double rightExclusive;
 
     public Interval(double left, double right) {
-        this.left = left;
-        this.right = right;
-    }
-
-    public double getLeft() {
-        return left;
-    }
-
-    public void setLeft(double left) {
-        this.left = left;
+        this.leftInclusive = left;
+        this.rightExclusive = right;
     }
 
     @Override
@@ -24,6 +14,6 @@ public class Interval {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Interval interval = (Interval) o;
-        return Double.compare(left, interval.left) == 0 && Double.compare(right, interval.right) == 0;
+        return Double.compare(leftInclusive, interval.leftInclusive) == 0 && Double.compare(rightExclusive, interval.rightExclusive) == 0;
     }
 }

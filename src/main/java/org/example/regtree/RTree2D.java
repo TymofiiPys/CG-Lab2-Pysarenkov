@@ -7,18 +7,60 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
-public class RTree2D{
+public class RTree2D {
     private Node root;
     private final int N;
+
+    private final ArrayList<Point2D.Double> points;
 
     public RTree2D(ArrayList<Point2D.Double> points) {
         this.N = points.size();
         points.sort(new Point2DXComparator());
+        this.points = points;
         this.root = new Node(1, N + 1, points);
     }
 
     public int getN() {
         return N;
+    }
+
+    private void normalizeInterval(Interval interval) {
+        boolean foundLeft = false, foundRight = false;
+        for (int i = 0; i < points.size(); i++) {
+            if (points.get(i).x > interval.leftInclusive) {
+                interval.leftInclusive = i + 1;
+                foundLeft = true;
+                break;
+            }
+        }
+
+        for (int i = points.size() - 1; i >= 0; i--) {
+            if (points.get(i).x < interval.rightExclusive) {
+                interval.rightExclusive = i + 2;
+                foundRight = true;
+                break;
+            }
+        }
+
+        if (!foundLeft) {
+            interval.leftInclusive = N + 1;
+            interval.rightExclusive = N + 1;
+        }
+        if (!foundRight) {
+            interval.leftInclusive = 0;
+            interval.rightExclusive = 0;
+        }
+    }
+
+    public ArrayList<Point2D.Double> regionSearch(Interval horizontal, Interval vertical) {
+        if (horizontal.leftInclusive > horizontal.rightExclusive ||
+                vertical.leftInclusive > vertical.rightExclusive)
+            throw new IllegalArgumentException();
+        ArrayList<Point2D.Double> pointsInRegion = new ArrayList<>();
+        normalizeInterval(horizontal);
+        if (horizontal.rightExclusive >= 1 && horizontal.leftInclusive <= N)
+            this.root.intervalSearch(horizontal, vertical, pointsInRegion);
+        return pointsInRegion;
     }
 
     public static class Node {
@@ -44,16 +86,30 @@ public class RTree2D{
             }
         }
 
-        public Interval getInterval(){
+        public Interval getInterval() {
             return new Interval(leftInclusive, rightExclusive);
         }
 
-        public TreeSet<Point2D.Double> getPointsInInterval(){
+        public TreeSet<Point2D.Double> getPointsInInterval() {
             return pointsInInterval;
+        }
+
+        private void intervalSearch(Interval horizontal, Interval vertical, ArrayList<Point2D.Double> pointsInRegion) {
+            if (horizontal.leftInclusive <= this.leftInclusive &&
+                    this.rightExclusive <= horizontal.rightExclusive) {
+                pointsInRegion.addAll(this.pointsInInterval.subSet(new Point2D.Double(horizontal.leftInclusive, vertical.leftInclusive - 0),
+                        new Point2D.Double(horizontal.rightExclusive, vertical.rightExclusive - 0)));
+            } else {
+                int half = (this.leftInclusive + this.rightExclusive) / 2;
+                if (horizontal.leftInclusive < half && this.leftChild != null)
+                    this.leftChild.intervalSearch(horizontal, vertical, pointsInRegion);
+                if (half < horizontal.rightExclusive && this.leftChild != null)
+                    this.rightChild.intervalSearch(horizontal, vertical, pointsInRegion);
+            }
         }
     }
 
-    public ArrayList<Node> nodesPreOrder(){
+    public ArrayList<Node> nodesPreOrder() {
         if (N == 0) return new ArrayList<>();
 
         ArrayList<Node> queue = new ArrayList<>();

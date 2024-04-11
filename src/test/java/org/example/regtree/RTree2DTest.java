@@ -50,8 +50,4 @@ public class RTree2DTest extends TestCase {
         treeOfNode.add(points.getLast());
         assertEquals(treeOfNode.stream().toList(), nodes.getLast().getPointsInInterval().stream().toList());
     }
-
-    public void testCreationUnsortedPoints() {
-
-    }
 }
