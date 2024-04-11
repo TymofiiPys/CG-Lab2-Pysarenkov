@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="30" left="30" bottom="30" right="30"/>
     <constraints>
-      <xy x="20" y="20" width="693" height="400"/>
+      <xy x="20" y="20" width="693" height="506"/>
     </constraints>
     <properties>
       <background color="-4326784"/>
@@ -38,7 +38,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="cf62c" binding="controlsInsidePanel" layout-manager="GridLayoutManager" row-count="7" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="cf62c" binding="controlsInsidePanel" layout-manager="GridLayoutManager" row-count="9" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -53,7 +53,7 @@
             <children>
               <component id="4a2dc" class="javax.swing.JButton" binding="pointLocButton">
                 <constraints>
-                  <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="5" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value=""/>
@@ -68,15 +68,15 @@
                   <text value="Регіон" noi18n="true"/>
                 </properties>
               </component>
-              <component id="876f5" class="javax.swing.JLabel" binding="contrPanXLabel">
+              <component id="876f5" class="javax.swing.JLabel" binding="contrPanX1Label">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="x" noi18n="true"/>
+                  <text value="x1" noi18n="true"/>
                 </properties>
               </component>
-              <component id="1f4ec" class="javax.swing.JTextField" binding="contrPanXTextField">
+              <component id="1f4ec" class="javax.swing.JTextField" binding="contrPanX1TextField">
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="85" height="30"/>
@@ -86,15 +86,15 @@
                   <text value="" noi18n="true"/>
                 </properties>
               </component>
-              <component id="afc86" class="javax.swing.JLabel" binding="contrPanYLabel">
+              <component id="afc86" class="javax.swing.JLabel" binding="contrPanY1Label">
                 <constraints>
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="y" noi18n="true"/>
+                  <text value="y1" noi18n="true"/>
                 </properties>
               </component>
-              <component id="a9dca" class="javax.swing.JTextField" binding="contrPanYTextField">
+              <component id="a9dca" class="javax.swing.JTextField" binding="contrPanY1TextField">
                 <constraints>
                   <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="85" height="30"/>
@@ -104,7 +104,7 @@
               </component>
               <component id="7e9b0" class="javax.swing.JButton" binding="showDirGrButton">
                 <constraints>
-                  <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="6" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <horizontalTextPosition value="11"/>
@@ -115,7 +115,7 @@
               </component>
               <component id="2e67a" class="javax.swing.JButton" binding="showChainsButton">
                 <constraints>
-                  <grid row="5" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="7" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value=""/>
@@ -123,11 +123,43 @@
               </component>
               <component id="32caa" class="javax.swing.JLabel" binding="statusLabel">
                 <constraints>
-                  <grid row="6" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="8" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value=""/>
                 </properties>
+              </component>
+              <component id="cb41" class="javax.swing.JLabel" binding="contrPanX2Label">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="x2" noi18n="true"/>
+                </properties>
+              </component>
+              <component id="50ece" class="javax.swing.JTextField" binding="contrPanX2TextField">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="85" height="30"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="60a0a" class="javax.swing.JLabel" binding="contrPanY2Label">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="y2"/>
+                </properties>
+              </component>
+              <component id="257f" class="javax.swing.JTextField" binding="contrPanY2TextField">
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="85" height="30"/>
+                  </grid>
+                </constraints>
+                <properties/>
               </component>
             </children>
           </grid>

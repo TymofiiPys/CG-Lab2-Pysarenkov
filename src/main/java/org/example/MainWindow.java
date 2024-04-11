@@ -1,6 +1,5 @@
 package org.example;
 
-import org.example.GUI.GraphDrawer;
 import org.example.GUI.Lab1MenuBar;
 import org.example.GUI.RegTreeDrawer;
 
@@ -10,7 +9,6 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 public class MainWindow extends Container {
     public JButton pointLocButton;
@@ -18,21 +16,25 @@ public class MainWindow extends Container {
     private JPanel controlsPanel;
     private JPanel graphicsPanel;
     private JLabel contrPanCoordLabel;
-    private JTextField contrPanXTextField;
-    private JLabel contrPanXLabel;
-    private JLabel contrPanYLabel;
-    private JTextField contrPanYTextField;
+    private JTextField contrPanX1TextField;
+    private JLabel contrPanX1Label;
+    private JLabel contrPanY1Label;
+    private JTextField contrPanY1TextField;
     private JPanel controlsInsidePanel;
     public JButton showDirGrButton;
     public JButton showChainsButton;
     public JLabel statusLabel;
+    private JTextField contrPanX2TextField;
+    private JLabel contrPanX2Label;
+    private JTextField contrPanY2TextField;
+    private JLabel contrPanY2Label;
     public final Dimension mainWindowDims = new Dimension(600, 500);
     public final RegTreeDrawer regTreeDrawer;
 
     private boolean showChains = false;
     private boolean showDir = false;
 
-    private Point p1, p2;
+    private Point2D.Double p1, p2;
 
     public MainWindow() {
         // button texts
@@ -50,7 +52,7 @@ public class MainWindow extends Container {
 
         //button action listeners
 //        pointLocButton.addActionListener(e -> {
-//            Point2D.Float p = new Point2D.Float(Float.parseFloat(contrPanXTextField.getText()), Float.parseFloat(contrPanYTextField.getText()));
+//            Point2D.Float p = new Point2D.Float(Float.parseFloat(contrPanX1TextField.getText()), Float.parseFloat(contrPanY1TextField.getText()));
 //            graphDrawer.drawPoint(graphDrawer.adaptToPanel(p));
 //            ArrayList<Integer>[] chains = graphDrawer.pointLocation(p);
 //            JDialog dialog = new JDialog();
@@ -129,10 +131,11 @@ public class MainWindow extends Container {
 //                        }
 //                    }
                     regTreeDrawer.drawPoints();
-                    if(p1 != null && p2 != null) {
+                    if (p1 != null && p2 != null) {
                         regTreeDrawer.drawRectangle(p1, p2);
                     }
-                };
+                }
+                ;
             }
         });
         graphicsPanel.addMouseListener(new MouseAdapter() {
@@ -152,29 +155,40 @@ public class MainWindow extends Container {
 //                    }
 //                    graphDrawer.drawPoint(e.getPoint());
 //                    Point2D.Float pointOnGraph = graphDrawer.adaptFromPanel(new Point2D.Float(e.getX(), e.getY()));
-//                    contrPanXTextField.setText(pointOnGraph.x + "");
-//                    contrPanYTextField.setText(pointOnGraph.y + "");
+//                    contrPanX1TextField.setText(pointOnGraph.x + "");
+//                    contrPanY1TextField.setText(pointOnGraph.y + "");
 //                }
 //            }
 
 
             @Override
             public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
-                p1 = e.getPoint();
+                if (regTreeDrawer.rtreeSet()) {
+                    super.mousePressed(e);
+                    p1 = new Point2D.Double(e.getX(), e.getY());
+                    Point2D.Double pointOnPanel = regTreeDrawer.adaptFromPanel(new Point2D.Double(p1.x, p1.y));
+                    contrPanX1TextField.setText(pointOnPanel.x + "");
+                    contrPanY1TextField.setText(pointOnPanel.y + "");
+                }
             }
         });
 
         graphicsPanel.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                super.mouseDragged(e);
-                p2 = e.getPoint();
-                regTreeDrawer.drawRectangle(p1, p2);
+                if (regTreeDrawer.rtreeSet()) {
+                    super.mouseDragged(e);
+                    p2 = new Point2D.Double(e.getX(), e.getY());;
+                    regTreeDrawer.drawRectangle(p1, p2);
+                    Point2D.Double pointOnPanel = regTreeDrawer.adaptFromPanel(new Point2D.Double(p2.x, p2.y));
+                    contrPanX2TextField.setText(pointOnPanel.x + "");
+                    contrPanY2TextField.setText(pointOnPanel.y + "");
+                }
             }
         });
 
-//        contrPanXTextField.getDocument().addDocumentListener(new DocumentListener() {
+        contrPanX1TextField.getDocument().addDocumentListener(regTFListener());
+//                new DocumentListener() {
 //            @Override
 //            public void insertUpdate(DocumentEvent e) {
 //                if (graphDrawer.graphSet()) {
@@ -187,10 +201,22 @@ public class MainWindow extends Container {
 //                            graphDrawer.drawGraph(true);
 //                        }
 //                    }
-//                    if(!contrPanXTextField.getText().isBlank() && !contrPanYTextField.getText().isBlank()) {
-//                        Point2D.Float pt = new Point2D.Float(Float.parseFloat(contrPanXTextField.getText()),
-//                                Float.parseFloat(contrPanYTextField.getText()));
+//                    if(!contrPanX1TextField.getText().isBlank() && !contrPanY1TextField.getText().isBlank()) {
+//                        Point2D.Float pt = new Point2D.Float(Float.parseFloat(contrPanX1TextField.getText()),
+//                                Float.parseFloat(contrPanY1TextField.getText()));
 //                        graphDrawer.drawPoint(graphDrawer.adaptToPanel(pt));
+//                    }
+//                }
+//                if(regTreeDrawer.rtreeSet()) {
+//                    if(!contrPanX1TextField.getText().isBlank() &&
+//                            !contrPanY1TextField.getText().isBlank() &&
+//                            !contrPanX2TextField.getText().isBlank() &&
+//                            !contrPanY2TextField.getText().isBlank()) {
+//                        p1 = new Point2D.Double(Double.parseDouble(contrPanX1TextField.getText()),
+//                                Double.parseDouble(contrPanY1TextField.getText()));
+//                        p2 = new Point2D.Double(Double.parseDouble(contrPanX1TextField.getText()),
+//                                Double.parseDouble(contrPanY1TextField.getText()));
+//                        regTreeDrawer.drawRectangle(regTreeDrawer.adaptToPanel(p1), regTreeDrawer.adaptToPanel(p2));
 //                    }
 //                }
 //            }
@@ -205,38 +231,42 @@ public class MainWindow extends Container {
 //
 //            }
 //        });
-//
-//        contrPanYTextField.getDocument().addDocumentListener(new DocumentListener() {
-//            @Override
-//            public void insertUpdate(DocumentEvent e) {
-//                if (graphDrawer.graphSet()) {
-//                    if (showChains) {
-//                        graphDrawer.drawChains();
-//                    } else {
-//                        if (showDir) {
-//                            graphDrawer.drawDirectedEnumeratedGraph(true);
-//                        } else {
-//                            graphDrawer.drawGraph(true);
-//                        }
-//                    }
-//                    if(!contrPanXTextField.getText().isBlank() && !contrPanYTextField.getText().isBlank()) {
-//                        Point2D.Float pt = new Point2D.Float(Float.parseFloat(contrPanXTextField.getText()),
-//                                Float.parseFloat(contrPanYTextField.getText()));
-//                        graphDrawer.drawPoint(graphDrawer.adaptToPanel(pt));
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void removeUpdate(DocumentEvent e) {
-//                insertUpdate(e);
-//            }
-//
-//            @Override
-//            public void changedUpdate(DocumentEvent e) {
-//
-//            }
-//        });
+
+        contrPanY1TextField.getDocument().addDocumentListener(regTFListener());
+
+        contrPanX2TextField.getDocument().addDocumentListener(regTFListener());
+
+        contrPanY2TextField.getDocument().addDocumentListener(regTFListener());
+    }
+
+    public DocumentListener regTFListener(){
+        return new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if(regTreeDrawer.rtreeSet()) {
+                    if(!contrPanX1TextField.getText().isBlank() &&
+                            !contrPanY1TextField.getText().isBlank() &&
+                            !contrPanX2TextField.getText().isBlank() &&
+                            !contrPanY2TextField.getText().isBlank()) {
+                        p1 = new Point2D.Double(Double.parseDouble(contrPanX1TextField.getText()),
+                                Double.parseDouble(contrPanY1TextField.getText()));
+                        p2 = new Point2D.Double(Double.parseDouble(contrPanX2TextField.getText()),
+                                Double.parseDouble(contrPanY2TextField.getText()));
+                        regTreeDrawer.drawRectangle(regTreeDrawer.adaptToPanel(p1), regTreeDrawer.adaptToPanel(p2));
+                    }
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                insertUpdate(e);
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        };
     }
 
     public static void main(String[] args) {

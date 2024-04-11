@@ -82,20 +82,20 @@ public class RegTreeDrawer {
         layer = 0;
     }
 
-    public void drawRectangle(Point p1, Point p2) {
+    public void drawRectangle(Point2D.Double p1, Point2D.Double p2) {
         Graphics2D gr = (Graphics2D) panelDraw.getGraphics();
         gr.clearRect(0, 0, panelDraw.getWidth(), panelDraw.getHeight());
         layer++;
         drawPoints();
         gr.setColor(Color.RED);
         if (p1.x < p2.x && p1.y < p2.y) {
-            gr.drawRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+            gr.drawRect((int) p1.x, (int) p1.y, (int) (p2.x - p1.x), (int) (p2.y - p1.y));
         } else if (p1.x < p2.x && p1.y > p2.y) {
-            gr.drawRect(p1.x, p2.y, p2.x - p1.x, p1.y - p2.y);
+            gr.drawRect((int) p1.x, (int) p2.y, (int) (p2.x - p1.x), (int) (p1.y - p2.y));
         } else if (p1.x > p2.x && p1.y < p2.y) {
-            gr.drawRect(p2.x, p1.y, p1.x - p2.x, p2.y - p1.y);
+            gr.drawRect((int) p2.x, (int) p1.y, (int) (p1.x - p2.x), (int) (p2.y - p1.y));
         } else {
-            gr.drawRect(p2.x, p2.y, p1.x - p2.x, p1.y - p2.y);
+            gr.drawRect((int) p2.x, (int) p2.y, (int) (p1.x - p2.x), (int) (p1.y - p2.y));
         }
     }
 }
