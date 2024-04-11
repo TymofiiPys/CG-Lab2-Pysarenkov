@@ -8,10 +8,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -34,6 +31,8 @@ public class MainWindow extends Container {
 
     private boolean showChains = false;
     private boolean showDir = false;
+
+    private Point p1, p2;
 
     public MainWindow() {
         // button texts
@@ -115,11 +114,11 @@ public class MainWindow extends Container {
 //        });
 
         //graphics panel listeners
-//        graphicsPanel.addComponentListener(new ComponentAdapter() {
-//            @Override
-//            public void componentResized(ComponentEvent e) {
-//                super.componentResized(e);
-//                if (graphDrawer.graphSet()) {
+        graphicsPanel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                if (regTreeDrawer.rtreeSet()) {
 //                    if (showChains) {
 //                        graphDrawer.drawChains();
 //                    } else {
@@ -129,12 +128,17 @@ public class MainWindow extends Container {
 //                            graphDrawer.drawGraph(true);
 //                        }
 //                    }
-//                };
-//            }
-//        });
-//        graphicsPanel.addMouseListener(new MouseAdapter() {
+                    regTreeDrawer.drawPoints();
+                    if(p1 != null && p2 != null) {
+                        regTreeDrawer.drawRectangle(p1, p2);
+                    }
+                };
+            }
+        });
+        graphicsPanel.addMouseListener(new MouseAdapter() {
+
 //            @Override
-//            public void mouseClicked(MouseEvent e) {
+//            public void mousePressed(MouseEvent e) {
 //                super.mouseClicked(e);
 //                if (graphDrawer.graphSet()) {
 //                    if (showChains) {
@@ -152,7 +156,23 @@ public class MainWindow extends Container {
 //                    contrPanYTextField.setText(pointOnGraph.y + "");
 //                }
 //            }
-//        });
+
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                p1 = e.getPoint();
+            }
+        });
+
+        graphicsPanel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseDragged(e);
+                p2 = e.getPoint();
+                regTreeDrawer.drawRectangle(p1, p2);
+            }
+        });
 
 //        contrPanXTextField.getDocument().addDocumentListener(new DocumentListener() {
 //            @Override

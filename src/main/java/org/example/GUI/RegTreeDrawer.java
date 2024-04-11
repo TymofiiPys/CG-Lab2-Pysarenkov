@@ -13,6 +13,7 @@ public class RegTreeDrawer {
     private final JPanel panelDraw;
 
     private final int nodesRad = 4;
+    private int layer = 0;
 
     public RegTreeDrawer(JPanel panelDraw) {
         this.panelDraw = panelDraw;
@@ -20,6 +21,10 @@ public class RegTreeDrawer {
 
     public void setRTree(RTree2D rtree) {
         this.rtree = rtree;
+    }
+
+    public boolean rtreeSet() {
+        return rtree != null;
     }
 
     private int[] offsets() {
@@ -44,7 +49,6 @@ public class RegTreeDrawer {
 
     public void drawPoints() {
         Graphics2D gr = (Graphics2D) panelDraw.getGraphics();
-        int layer = 0;
         if (layer == 0)
             gr.clearRect(0, 0, panelDraw.getWidth(), panelDraw.getHeight());
 
@@ -74,6 +78,24 @@ public class RegTreeDrawer {
                     2 * nodesRad,
                     2 * nodesRad);
             gr.drawString(k++ + "", (int) adapted.x + textXOffset, (int) adapted.y + textYOffset);
+        }
+        layer = 0;
+    }
+
+    public void drawRectangle(Point p1, Point p2) {
+        Graphics2D gr = (Graphics2D) panelDraw.getGraphics();
+        gr.clearRect(0, 0, panelDraw.getWidth(), panelDraw.getHeight());
+        layer++;
+        drawPoints();
+        gr.setColor(Color.RED);
+        if (p1.x < p2.x && p1.y < p2.y) {
+            gr.drawRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+        } else if (p1.x < p2.x && p1.y > p2.y) {
+            gr.drawRect(p1.x, p2.y, p2.x - p1.x, p1.y - p2.y);
+        } else if (p1.x > p2.x && p1.y < p2.y) {
+            gr.drawRect(p2.x, p1.y, p1.x - p2.x, p2.y - p1.y);
+        } else {
+            gr.drawRect(p2.x, p2.y, p1.x - p2.x, p1.y - p2.y);
         }
     }
 }
