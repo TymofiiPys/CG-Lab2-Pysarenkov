@@ -7,22 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
-public class RegTree2D {
+public class RTree2D{
     private Node root;
     private final int N;
 
-    public RegTree2D(ArrayList<Point2D.Double> points) {
+    public RTree2D(ArrayList<Point2D.Double> points) {
         this.N = points.size();
-        points.sort(null);
+        points.sort(new Point2DXComparator());
         this.root = new Node(1, N + 1, points);
     }
 
-//    public RegTree2D(int coordNum, int k, int left, int right) {
-//        this(coordNum, k);
-//        this.root = new Node(left, right);
-//    }
+    public int getN() {
+        return N;
+    }
 
-    private class Node {
+    public static class Node {
         private int leftInclusive;
         private int rightExclusive;
         private TreeSet<Point2D.Double> pointsInInterval;
@@ -44,5 +43,28 @@ public class RegTree2D {
                         pointsInInterval.subList(pointsInInterval.size() / 2, pointsInInterval.size()));
             }
         }
+
+        public Interval getInterval(){
+            return new Interval(leftInclusive, rightExclusive);
+        }
+
+        public TreeSet<Point2D.Double> getPointsInInterval(){
+            return pointsInInterval;
+        }
+    }
+
+    public ArrayList<Node> nodesPreOrder(){
+        if (N == 0) return new ArrayList<>();
+
+        ArrayList<Node> queue = new ArrayList<>();
+        nodesPreOrder(root, queue);
+        return queue;
+    }
+
+    private void nodesPreOrder(Node x, ArrayList<Node> queue) {
+        if (x == null) return;
+        queue.add(x);
+        nodesPreOrder(x.leftChild, queue);
+        nodesPreOrder(x.rightChild, queue);
     }
 }
