@@ -5,9 +5,7 @@ import org.example.regtree.RTree2D;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
-import java.awt.*;
 import java.io.File;
-import java.util.Optional;
 
 public class Lab1MenuBar extends JMenuBar {
     public StringBuilder filePath = new StringBuilder();

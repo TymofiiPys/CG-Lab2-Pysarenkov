@@ -11,7 +11,7 @@ import java.util.TreeSet;
 import java.util.stream.Stream;
 
 public class RTree2D {
-    private Node root;
+    private final Node root;
     private final int N;
 
     private final ArrayList<Point2D.Double> points;
@@ -95,9 +95,9 @@ public class RTree2D {
     }
 
     public static class Node {
-        private int leftInclusive;
-        private int rightExclusive;
-        private TreeSet<Point2D.Double> pointsInInterval;
+        private final int leftInclusive;
+        private final int rightExclusive;
+        private final TreeSet<Point2D.Double> pointsInInterval;
 
         private Node leftChild = null;
         private Node rightChild = null;

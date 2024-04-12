@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class RegTreeDrawer {
     private RTree2D rtree;

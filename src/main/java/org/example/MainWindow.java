@@ -79,32 +79,9 @@ public class MainWindow extends Container {
                         regTreeDrawer.drawRectangle(p1, p2);
                     }
                 }
-                ;
             }
         });
         graphicsPanel.addMouseListener(new MouseAdapter() {
-
-//            @Override
-//            public void mousePressed(MouseEvent e) {
-//                super.mouseClicked(e);
-//                if (graphDrawer.graphSet()) {
-//                    if (showChains) {
-//                        graphDrawer.drawChains();
-//                    } else {
-//                        if (showDir) {
-//                            graphDrawer.drawDirectedEnumeratedGraph(true);
-//                        } else {
-//                            graphDrawer.drawGraph(true);
-//                        }
-//                    }
-//                    graphDrawer.drawPoint(e.getPoint());
-//                    Point2D.Float pointOnGraph = graphDrawer.adaptFromPanel(new Point2D.Float(e.getX(), e.getY()));
-//                    contrPanX1TextField.setText(pointOnGraph.x + "");
-//                    contrPanY1TextField.setText(pointOnGraph.y + "");
-//                }
-//            }
-
-
             @Override
             public void mousePressed(MouseEvent e) {
                 if (regTreeDrawer.rtreeSet()) {
@@ -123,7 +100,6 @@ public class MainWindow extends Container {
                 if (regTreeDrawer.rtreeSet()) {
                     super.mouseDragged(e);
                     p2 = new Point2D.Double(e.getX(), e.getY());
-                    ;
                     regTreeDrawer.drawRectangle(p1, p2);
                     Point2D.Double pointOnPanel = regTreeDrawer.adaptFromPanel(new Point2D.Double(p2.x, p2.y));
                     contrPanX2TextField.setText(pointOnPanel.x + "");
