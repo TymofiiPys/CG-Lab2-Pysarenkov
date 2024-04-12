@@ -1,7 +1,6 @@
 package org.example.GUI;
 
 import org.example.MainWindow;
-import org.example.pointloc.Graph;
 import org.example.regtree.RTree2D;
 
 import javax.swing.*;

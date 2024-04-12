@@ -1,9 +1,5 @@
 package org.example.regtree;
 
-import org.example.pointloc.Edge;
-import org.example.pointloc.Graph;
-import org.example.pointloc.Point2DYComparator;
-
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.nio.file.Files;

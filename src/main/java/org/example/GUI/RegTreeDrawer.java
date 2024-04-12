@@ -1,6 +1,5 @@
 package org.example.GUI;
 
-import org.example.pointloc.Graph;
 import org.example.regtree.Interval;
 import org.example.regtree.RTree2D;
 
