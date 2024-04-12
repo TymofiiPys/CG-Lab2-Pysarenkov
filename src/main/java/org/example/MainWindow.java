@@ -30,31 +30,19 @@ public class MainWindow extends Container {
     private JLabel contrPanY2Label;
     public final Dimension mainWindowDims = new Dimension(600, 500);
     public final RegTreeDrawer regTreeDrawer;
-
-    private boolean showChains = false;
-    private boolean showDir = false;
-
     private Point2D.Double p1, p2;
 
     public MainWindow() {
         // button texts
         regSearchButton.setText("<html> <center> Здійснити <br> регіональний пошук</center> </html>");
-//        showDirGrButton.setText("<html> <center> Показати орієнтований <br> граф <br> і номери вершин </center> </html>");
-//        showChainsButton.setText("Показати ланцюги");
 
         //
-//        graphDrawer = new GraphDrawer(graphicsPanel);
         regTreeDrawer = new RegTreeDrawer(graphicsPanel);
 
         regSearchButton.setEnabled(false);
-//        showDirGrButton.setEnabled(false);
-//        showChainsButton.setEnabled(false);
 
         //button action listeners
         regSearchButton.addActionListener(e -> {
-//            Point2D.Float p = new Point2D.Float(Float.parseFloat(contrPanX1TextField.getText()), Float.parseFloat(contrPanY1TextField.getText()));
-//            graphDrawer.drawPoint(graphDrawer.adaptToPanel(p));
-//            ArrayList<Integer>[] chains = graphDrawer.pointLocation(p);
             JDialog dialog = new JDialog();
             dialog.setTitle("Регіональний пошук");
             StringBuilder text = new StringBuilder();
@@ -79,28 +67,6 @@ public class MainWindow extends Container {
             dialog.setLocationRelativeTo(null);
             dialog.setVisible(true);
         });
-//        showDirGrButton.addActionListener(e -> {
-//            if (!showDir) {
-//                graphDrawer.drawDirectedEnumeratedGraph(true);
-//                showDir = true;
-//            } else {
-//                graphDrawer.drawGraph(true);
-//                showDir = false;
-//            }
-//        });
-//        showChainsButton.addActionListener(e -> {
-//            if (!showChains) {
-//                graphDrawer.drawChains();
-//                showChains = true;
-//            } else {
-//                if (showDir) {
-//                    graphDrawer.drawDirectedEnumeratedGraph(true);
-//                } else {
-//                    graphDrawer.drawGraph(true);
-//                }
-//                showChains = false;
-//            }
-//        });
 
         //graphics panel listeners
         graphicsPanel.addComponentListener(new ComponentAdapter() {
@@ -108,15 +74,6 @@ public class MainWindow extends Container {
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
                 if (regTreeDrawer.rtreeSet()) {
-//                    if (showChains) {
-//                        graphDrawer.drawChains();
-//                    } else {
-//                        if (showDir) {
-//                            graphDrawer.drawDirectedEnumeratedGraph(true);
-//                        } else {
-//                            graphDrawer.drawGraph(true);
-//                        }
-//                    }
                     regTreeDrawer.drawPoints();
                     if (p1 != null && p2 != null) {
                         regTreeDrawer.drawRectangle(p1, p2);
@@ -176,49 +133,6 @@ public class MainWindow extends Container {
         });
 
         contrPanX1TextField.getDocument().addDocumentListener(regTFListener());
-//                new DocumentListener() {
-//            @Override
-//            public void insertUpdate(DocumentEvent e) {
-//                if (graphDrawer.graphSet()) {
-//                    if (showChains) {
-//                        graphDrawer.drawChains();
-//                    } else {
-//                        if (showDir) {
-//                            graphDrawer.drawDirectedEnumeratedGraph(true);
-//                        } else {
-//                            graphDrawer.drawGraph(true);
-//                        }
-//                    }
-//                    if(!contrPanX1TextField.getText().isBlank() && !contrPanY1TextField.getText().isBlank()) {
-//                        Point2D.Float pt = new Point2D.Float(Float.parseFloat(contrPanX1TextField.getText()),
-//                                Float.parseFloat(contrPanY1TextField.getText()));
-//                        graphDrawer.drawPoint(graphDrawer.adaptToPanel(pt));
-//                    }
-//                }
-//                if(regTreeDrawer.rtreeSet()) {
-//                    if(!contrPanX1TextField.getText().isBlank() &&
-//                            !contrPanY1TextField.getText().isBlank() &&
-//                            !contrPanX2TextField.getText().isBlank() &&
-//                            !contrPanY2TextField.getText().isBlank()) {
-//                        p1 = new Point2D.Double(Double.parseDouble(contrPanX1TextField.getText()),
-//                                Double.parseDouble(contrPanY1TextField.getText()));
-//                        p2 = new Point2D.Double(Double.parseDouble(contrPanX1TextField.getText()),
-//                                Double.parseDouble(contrPanY1TextField.getText()));
-//                        regTreeDrawer.drawRectangle(regTreeDrawer.adaptToPanel(p1), regTreeDrawer.adaptToPanel(p2));
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void removeUpdate(DocumentEvent e) {
-//                insertUpdate(e);
-//            }
-//
-//            @Override
-//            public void changedUpdate(DocumentEvent e) {
-//
-//            }
-//        });
 
         contrPanY1TextField.getDocument().addDocumentListener(regTFListener());
 
