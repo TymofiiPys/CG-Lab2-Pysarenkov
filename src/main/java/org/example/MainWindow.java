@@ -11,7 +11,7 @@ import java.awt.event.*;
 import java.awt.geom.Point2D;
 
 public class MainWindow extends Container {
-    public JButton pointLocButton;
+    public JButton regSearchButton;
     private JPanel mainPanel;
     private JPanel controlsPanel;
     private JPanel graphicsPanel;
@@ -38,60 +38,47 @@ public class MainWindow extends Container {
 
     public MainWindow() {
         // button texts
-        pointLocButton.setText("Локалізація точки");
-        showDirGrButton.setText("<html> <center> Показати орієнтований <br> граф <br> і номери вершин </center> </html>");
-        showChainsButton.setText("Показати ланцюги");
+        regSearchButton.setText("<html> <center> Здійснити <br> регіональний пошук</center> </html>");
+//        showDirGrButton.setText("<html> <center> Показати орієнтований <br> граф <br> і номери вершин </center> </html>");
+//        showChainsButton.setText("Показати ланцюги");
 
         //
 //        graphDrawer = new GraphDrawer(graphicsPanel);
         regTreeDrawer = new RegTreeDrawer(graphicsPanel);
 
-        pointLocButton.setEnabled(false);
-        showDirGrButton.setEnabled(false);
-        showChainsButton.setEnabled(false);
+        regSearchButton.setEnabled(false);
+//        showDirGrButton.setEnabled(false);
+//        showChainsButton.setEnabled(false);
 
         //button action listeners
-//        pointLocButton.addActionListener(e -> {
+        regSearchButton.addActionListener(e -> {
 //            Point2D.Float p = new Point2D.Float(Float.parseFloat(contrPanX1TextField.getText()), Float.parseFloat(contrPanY1TextField.getText()));
 //            graphDrawer.drawPoint(graphDrawer.adaptToPanel(p));
 //            ArrayList<Integer>[] chains = graphDrawer.pointLocation(p);
-//            JDialog dialog = new JDialog();
-//            dialog.setTitle("Локалізація точки");
-//            StringBuilder text = new StringBuilder();
-//            text.append("<html><center> Точка знаходиться ");
-//            if (chains[1].isEmpty()) {
-//                if (chains[0].getFirst() == -1) {
-//                    text.append("ззовні від графа, справа");
-//                } else if (chains[0].getFirst() == -3) {
-//                    text.append("ззовні від графа, зверху від найвищої точки");
-//                } else if (chains[0].getFirst() == -4) {
-//                    text.append("ззовні від графа, знизу від найнижчої точки");
-//                } else {
-//                    text.append("на ланцюгах ");
-//                    for (int chainInd : chains[0]) {
-//                        text.append(chainInd).append(", ");
-//                    }
-//                    text.setLength(text.length() - 2);
-//                }
-//            } else {
-//                if (chains[1].getFirst() == 0) {
-//                    text.append("ззовні від графа, зліва");
-//                } else {
-//                    text.append("між ланцюгами ")
-//                            .append(chains[0].getFirst())
-//                            .append(" і ")
-//                            .append(chains[1].getFirst());
-//                }
-//            }
-//            text.append("</center></html>");
-//            JLabel label = new JLabel(text.toString());
-//            label.setHorizontalAlignment(SwingConstants.CENTER);
-//            dialog.add(label);
-//            dialog.setSize(200, 200);
-//            dialog.setResizable(true);
-//            dialog.setLocationRelativeTo(null);
-//            dialog.setVisible(true);
-//        });
+            JDialog dialog = new JDialog();
+            dialog.setTitle("Регіональний пошук");
+            StringBuilder text = new StringBuilder();
+            if (p1 == null || p2 == null) {
+                text.append("<html><center> Прямокутник не задано! </center></html>");
+            } else {
+                String result = regTreeDrawer.regionSearchAsString(p1, p2);
+                text.append("<html><center> У цей прямокутник ");
+                if (result.isBlank())
+                    text.append("не потрапляє жодна точка.");
+                else {
+                    text.append("потрапляють точки: <br>");
+                    text.append(result);
+                }
+                text.append("</center></html>");
+            }
+            JLabel label = new JLabel(text.toString());
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+            dialog.add(label);
+            dialog.setSize(200, 200);
+            dialog.setResizable(true);
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+        });
 //        showDirGrButton.addActionListener(e -> {
 //            if (!showDir) {
 //                graphDrawer.drawDirectedEnumeratedGraph(true);
@@ -178,7 +165,8 @@ public class MainWindow extends Container {
             public void mouseDragged(MouseEvent e) {
                 if (regTreeDrawer.rtreeSet()) {
                     super.mouseDragged(e);
-                    p2 = new Point2D.Double(e.getX(), e.getY());;
+                    p2 = new Point2D.Double(e.getX(), e.getY());
+                    ;
                     regTreeDrawer.drawRectangle(p1, p2);
                     Point2D.Double pointOnPanel = regTreeDrawer.adaptFromPanel(new Point2D.Double(p2.x, p2.y));
                     contrPanX2TextField.setText(pointOnPanel.x + "");
@@ -239,12 +227,12 @@ public class MainWindow extends Container {
         contrPanY2TextField.getDocument().addDocumentListener(regTFListener());
     }
 
-    public DocumentListener regTFListener(){
+    public DocumentListener regTFListener() {
         return new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                if(regTreeDrawer.rtreeSet()) {
-                    if(!contrPanX1TextField.getText().isBlank() &&
+                if (regTreeDrawer.rtreeSet()) {
+                    if (!contrPanX1TextField.getText().isBlank() &&
                             !contrPanY1TextField.getText().isBlank() &&
                             !contrPanX2TextField.getText().isBlank() &&
                             !contrPanY2TextField.getText().isBlank()) {

@@ -1,12 +1,14 @@
 package org.example.GUI;
 
 import org.example.pointloc.Graph;
+import org.example.regtree.Interval;
 import org.example.regtree.RTree2D;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RegTreeDrawer {
     private RTree2D rtree;
@@ -84,7 +86,8 @@ public class RegTreeDrawer {
 
     public void drawRectangle(Point2D.Double p1, Point2D.Double p2) {
         Graphics2D gr = (Graphics2D) panelDraw.getGraphics();
-        gr.clearRect(0, 0, panelDraw.getWidth(), panelDraw.getHeight());
+        if (layer == 0)
+            gr.clearRect(0, 0, panelDraw.getWidth(), panelDraw.getHeight());
         layer++;
         drawPoints();
         gr.setColor(Color.RED);
@@ -97,5 +100,48 @@ public class RegTreeDrawer {
         } else {
             gr.drawRect((int) p2.x, (int) p2.y, (int) (p1.x - p2.x), (int) (p1.y - p2.y));
         }
+    }
+
+    public String regionSearchAsString(Point2D.Double p1, Point2D.Double p2) {
+        StringBuilder results = new StringBuilder();
+
+        if (p1.equals(p2)) {
+            return "";
+        }
+        if(p1.y > p2.y) {
+            double temp = p1.y;
+            p1.y = p2.y;
+            p2.y = temp;
+        }
+        if(p1.x > p2.x) {
+            double temp = p1.x;
+            p1.x = p2.x;
+            p2.x = temp;
+        }
+
+        Graphics2D gr = (Graphics2D) panelDraw.getGraphics();
+        gr.clearRect(0, 0, panelDraw.getWidth(), panelDraw.getHeight());
+        layer++;
+        drawPoints();
+        drawRectangle(adaptToPanel(p1), adaptToPanel(p2));
+
+        gr.setColor(Color.GREEN);
+        ArrayList<Point2D.Double> pointsInRegion = rtree.regionSearch(new Interval(p1.x, p2.x), new Interval(p1.y, p2.y));
+        for (var point : pointsInRegion) {
+            var adapted = adaptToPanel(point);
+            gr.fillOval((int) (adapted.x - nodesRad),
+                    (int) (adapted.y - nodesRad),
+                    2 * nodesRad,
+                    2 * nodesRad);
+        }
+
+        ArrayList<Point2D.Double> allPoints = rtree.getPoints();
+
+        for (var point : pointsInRegion) {
+            int ind = allPoints.indexOf(point);
+            results.append("[").append(ind + 1).append("] (").append(point.x).append(", ").append(point.y).append(")<br>");
+        }
+
+        return results.toString();
     }
 }

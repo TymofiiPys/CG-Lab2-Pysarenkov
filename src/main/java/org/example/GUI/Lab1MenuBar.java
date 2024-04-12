@@ -29,8 +29,9 @@ public class Lab1MenuBar extends JMenuBar {
         };
         openMI.addActionListener(new OpenFileDialogActionListener(parent, textFilesFilter, filePath, () -> {
             mw.regTreeDrawer.setRTree(RTree2D.readFromFile(filePath.toString()));
-            mw.showDirGrButton.setEnabled(true);
-            mw.showChainsButton.setEnabled(true);
+//            mw.showDirGrButton.setEnabled(true);
+//            mw.showChainsButton.setEnabled(true);
+            mw.regSearchButton.setEnabled(true);
             mw.regTreeDrawer.drawPoints();
 //            Boolean isChainMethodApplicable = mw.graphDrawer.graphChainMethodApplicable();
 //            if (isChainMethodApplicable == null) {
@@ -38,14 +39,14 @@ public class Lab1MenuBar extends JMenuBar {
 //                mw.statusLabel.setText("Помилка");
 //                mw.showChainsButton.setEnabled(false);
 //                mw.showDirGrButton.setEnabled(false);
-//                mw.pointLocButton.setEnabled(false);
+//                mw.regSearchButton.setEnabled(false);
 //            } else {
 //                if (isChainMethodApplicable) {
 //                    mw.statusLabel.setForeground(Color.BLACK);
 //                    mw.statusLabel.setText("<html> До графу можна застосувати <br> метод ланцюгів </html>");
 //                    mw.showChainsButton.setEnabled(true);
 //                    mw.showDirGrButton.setEnabled(true);
-//                    mw.pointLocButton.setEnabled(true);
+//                    mw.regSearchButton.setEnabled(true);
 //                    JDialog dialog = new JDialog();
 //                    dialog.setTitle("Ланцюги");
 //                    StringBuilder text = new StringBuilder();
@@ -64,7 +65,7 @@ public class Lab1MenuBar extends JMenuBar {
 //                    mw.statusLabel.setText("<html> До графу НЕ можна <br> застосувати <br> метод ланцюгів </html>");
 //                    mw.showChainsButton.setEnabled(false);
 //                    mw.showDirGrButton.setEnabled(true);
-//                    mw.pointLocButton.setEnabled(false);
+//                    mw.regSearchButton.setEnabled(false);
 //                }
 //            }
         }));
